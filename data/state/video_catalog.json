@@ -281,5 +281,63 @@
     ],
     "processed_at": "2026-03-16T04:44:26.384261+00:00",
     "digest_date": "2026-03-15"
+  },
+  {
+    "url": "https://x.com/levelsio/status/2023431036861128952",
+    "title": "Finally trying 4x Claude Code&#39;s on server in one  @TermiusHQ , really nice and you don&#39;t have to fiddle with sho",
+    "platform": "x",
+    "ai_tags": [
+      "coding tools",
+      "infrastructure",
+      "llms"
+    ],
+    "processed_at": "2026-03-16T04:51:10.932198+00:00",
+    "digest_date": "2026-03-15"
+  },
+  {
+    "url": "https://x.com/blader/status/2024370713071919523",
+    "title": "psa: install taskmaster and you will be within the 0.01% of the 0.01% of users who have claude code running for days str",
+    "platform": "x",
+    "ai_tags": [
+      "agents",
+      "coding tools",
+      "infrastructure"
+    ],
+    "processed_at": "2026-03-16T04:51:10.932198+00:00",
+    "digest_date": "2026-03-15"
+  },
+  {
+    "url": "https://x.com/jdcmedlock/status/2023592351072219232",
+    "title": "don&#39;t check in on your most autistic friend right now. they are deep in a claude rabbit hole making bespoke spreadsh",
+    "platform": "x",
+    "ai_tags": [
+      "llms",
+      "coding tools"
+    ],
+    "processed_at": "2026-03-16T04:51:10.932198+00:00",
+    "digest_date": "2026-03-15"
+  },
+  {
+    "url": "https://x.com/staysaasy/status/2026747108024365441",
+    "title": "My new favorite insult is calling someone\u2019s job a Claude skill.",
+    "platform": "x",
+    "ai_tags": [
+      "llms",
+      "ai startups",
+      "coding tools"
+    ],
+    "processed_at": "2026-03-16T04:51:10.932198+00:00",
+    "digest_date": "2026-03-15"
+  },
+  {
+    "url": "https://x.com/asmah2107/status/2027721262324453602",
+    "title": "I love discussing AI agent orchestration in system design.  It&#39;s not about picking the right LLM or chaining API cal",
+    "platform": "x",
+    "ai_tags": [
+      "agents",
+      "infrastructure"
+    ],
+    "processed_at": "2026-03-16T04:51:10.932198+00:00",
+    "digest_date": "2026-03-15"
   }
 ]
