@@ -1,8 +1,8 @@
 {
   "date": "2026-03-15",
-  "run_timestamp": "2026-03-16T05:04:09.656928+00:00",
-  "video_count": 5,
-  "excluded_count": 7,
+  "run_timestamp": "2026-03-16T05:09:11.998097+00:00",
+  "video_count": 7,
+  "excluded_count": 11,
   "links": [
     {
       "url": "https://x.com/levelsio/status/2023431036861128952",
@@ -21,7 +21,8 @@
       "ai_tags": [
         "agents",
         "coding tools",
-        "infrastructure"
+        "infrastructure",
+        "llms"
       ]
     },
     {
@@ -42,6 +43,20 @@
         "llms",
         "ai startups",
         "coding tools"
+      ]
+    },
+    {
+      "url": "https://claude.ai/share/65293fd9-98c5-40d8-81fc-bb0f99cbad42",
+      "title": "Claude",
+      "platform": "web",
+      "ai_tags": []
+    },
+    {
+      "url": "https://claude.ai/share/4fec3e49-05a3-4e34-9e91-bf9fbd41d93b",
+      "title": "Claude",
+      "platform": "web",
+      "ai_tags": [
+        "llms"
       ]
     },
     {
