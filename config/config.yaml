@@ -41,8 +41,8 @@ ai_classification:
   min_confidence: "medium"
 
 github_pages:
-  repo_url: ""  # Set during setup
-  site_url: ""  # Set during setup
+  repo_url: "https://github.com/meechi3t/iMessage-AI-Digest"
+  site_url: "https://meechi3t.github.io/iMessage-AI-Digest"
   publish_dir: "docs"
 
 paths:
