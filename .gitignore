@@ -1,0 +1,7 @@
+data/logs/*.log
+data/state/thread_cache.json
+__pycache__/
+*.pyc
+.env
+venv/
+weekly-digests/*/transcripts/*.txt

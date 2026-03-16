@@ -1,0 +1,71 @@
+# iMessage AI Video Digest Configuration
+
+thread:
+  name: "Kevin and Arthur"
+  participants:
+    - "REDACTED"
+    - "REDACTED"
+
+messages_db: "~/Library/Messages/chat.db"
+
+schedule:
+  day: "monday"
+  time: "11:00"
+  timezone: "America/Los_Angeles"
+
+lookback_days: 30
+
+supported_domains:
+  - "youtube.com"
+  - "youtu.be"
+  - "x.com"
+  - "twitter.com"
+
+transcription:
+  model: "small"
+  engine: "faster-whisper"
+
+ai_classification:
+  qualifying_topics:
+    - "AI models"
+    - "LLMs"
+    - "generative AI"
+    - "AI agents"
+    - "multimodal AI"
+    - "machine learning"
+    - "deep learning"
+    - "AI infrastructure"
+    - "AI startups"
+    - "AI research"
+    - "robotics"
+  min_confidence: "medium"
+
+github_pages:
+  repo_url: ""  # Set during setup
+  site_url: ""  # Set during setup
+  publish_dir: "docs"
+
+paths:
+  state_dir: "data/state"
+  logs_dir: "data/logs"
+  digests_dir: "weekly-digests"
+  docs_dir: "docs"
+  thread_cache: "data/state/thread_cache.json"
+  processed_links: "data/state/processed_links.json"
+  video_catalog: "data/state/video_catalog.json"
+
+test_mode:
+  enabled: true
+  send_to: "+REDACTED"  # Send digest to yourself instead of the group
+
+ai_tags:
+  - "agents"
+  - "LLMs"
+  - "multimodal"
+  - "AI startups"
+  - "infrastructure"
+  - "coding tools"
+  - "robotics"
+  - "research"
+  - "open source"
+  - "safety"
