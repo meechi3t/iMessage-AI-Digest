@@ -1,6 +1,6 @@
 {
   "date": "2026-03-15",
-  "run_timestamp": "2026-03-16T04:29:45.357081+00:00",
+  "run_timestamp": "2026-03-16T04:44:26.384261+00:00",
   "video_count": 5,
   "excluded_count": 7,
   "links": [
@@ -10,8 +10,8 @@
       "platform": "x",
       "ai_tags": [
         "coding tools",
-        "llms",
-        "infrastructure"
+        "infrastructure",
+        "llms"
       ]
     },
     {
@@ -19,9 +19,9 @@
       "title": "psa: install taskmaster and you will be within the 0.01% of the 0.01% of users who have claude code running for days str",
       "platform": "x",
       "ai_tags": [
+        "agents",
         "coding tools",
-        "llms",
-        "agents"
+        "infrastructure"
       ]
     },
     {
@@ -29,7 +29,9 @@
       "title": "don&#39;t check in on your most autistic friend right now. they are deep in a claude rabbit hole making bespoke spreadsh",
       "platform": "x",
       "ai_tags": [
-        "llms"
+        "llms",
+        "coding tools",
+        "ai startups"
       ]
     },
     {
@@ -38,7 +40,8 @@
       "platform": "x",
       "ai_tags": [
         "llms",
-        "agents"
+        "ai startups",
+        "coding tools"
       ]
     },
     {
