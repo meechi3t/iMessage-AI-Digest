@@ -1,7 +1,7 @@
 {
   "date": "2026-03-30",
-  "run_timestamp": "2026-03-30T17:17:18.803977+00:00",
-  "video_count": 4,
+  "run_timestamp": "2026-03-31T04:15:16.541722+00:00",
+  "video_count": 2,
   "excluded_count": 0,
   "links": [
     {
@@ -10,7 +10,8 @@
       "platform": "x",
       "ai_tags": [
         "ai startups",
-        "coding tools"
+        "coding tools",
+        "llms"
       ]
     },
     {
@@ -18,26 +19,6 @@
       "title": "https://t.co/45C3gKydTK",
       "platform": "x",
       "ai_tags": []
-    },
-    {
-      "url": "https://meechi3t.github.io/iMessage-AI-Digest/latest.html",
-      "title": "Weekly AI Video Digest",
-      "platform": "web",
-      "ai_tags": [
-        "agents",
-        "infrastructure",
-        "open source"
-      ]
-    },
-    {
-      "url": "https://meechi3t.github.io/iMessage-AI-Digest/archive.htm",
-      "title": "",
-      "platform": "web",
-      "ai_tags": [
-        "agents",
-        "infrastructure",
-        "open source"
-      ]
     }
   ]
 }
