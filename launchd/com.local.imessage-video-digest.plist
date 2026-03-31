@@ -9,7 +9,7 @@
     <array>
         <string>/bin/zsh</string>
         <string>-c</string>
-        <string>source /Users/meechiet/Desktop/Dev/iMessage_AI_Digest/.env &amp;&amp; export ANTHROPIC_API_KEY &amp;&amp; /Users/meechiet/Desktop/Dev/iMessage_AI_Digest/venv/bin/python /Users/meechiet/Desktop/Dev/iMessage_AI_Digest/scripts/run_digest.py</string>
+        <string>set -a &amp;&amp; source /Users/meechiet/Desktop/Dev/iMessage_AI_Digest/.env &amp;&amp; set +a &amp;&amp; /Users/meechiet/Desktop/Dev/iMessage_AI_Digest/venv/bin/python /Users/meechiet/Desktop/Dev/iMessage_AI_Digest/scripts/run_digest.py</string>
     </array>
 
     <key>WorkingDirectory</key>

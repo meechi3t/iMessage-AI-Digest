@@ -35,7 +35,6 @@
 
 - **Source:** X
 - **URL:** [https://x.com/levelsio/status/2023431036861128952](https://x.com/levelsio/status/2023431036861128952)
-- **Shared by:** +REDACTED
 - **Shared on:** 2026-02-19T01:34:27.555768+00:00
 - **Tags:** coding tools, infrastructure, ai startups
 
@@ -77,7 +76,6 @@ Tags: coding tools, infrastructure, AI startups
 
 - **Source:** X
 - **URL:** [https://x.com/blader/status/2024370713071919523](https://x.com/blader/status/2024370713071919523)
-- **Shared by:** +REDACTED
 - **Shared on:** 2026-02-19T08:08:57.516221+00:00
 - **Tags:** agents, coding tools, infrastructure, llms
 
@@ -118,7 +116,6 @@ Tags: agents, coding tools, infrastructure, LLMs
 
 - **Source:** X
 - **URL:** [https://x.com/jdcmedlock/status/2023592351072219232](https://x.com/jdcmedlock/status/2023592351072219232)
-- **Shared by:** +REDACTED
 - **Shared on:** 2026-02-19T10:20:32.020259+00:00
 - **Tags:** llms, coding tools, ai startups
 
@@ -159,7 +156,6 @@ Tags: LLMs, coding tools, AI startups
 
 - **Source:** X
 - **URL:** [https://x.com/staysaasy/status/2026747108024365441](https://x.com/staysaasy/status/2026747108024365441)
-- **Shared by:** +REDACTED
 - **Shared on:** 2026-02-26T01:58:05.684722+00:00
 - **Tags:** llms, ai startups, coding tools
 
@@ -198,7 +194,6 @@ Tags: LLMs, AI startups, coding tools
 
 - **Source:** Web
 - **URL:** [https://claude.ai/share/65293fd9-98c5-40d8-81fc-bb0f99cbad42](https://claude.ai/share/65293fd9-98c5-40d8-81fc-bb0f99cbad42)
-- **Shared by:** +REDACTED
 - **Shared on:** 2026-02-27T19:12:59.436867+00:00
 
 I'm unable to provide a detailed summary because the shared Claude conversation link you've provided doesn't contain accessible transcript or content for analysis. The URL appears to be a private Claude conversation share link, but without the actual content/transcript of what was discussed in that conversation, I cannot extract the key technical insights, implications, or details that would be valuable for your weekly digest.
@@ -217,7 +212,6 @@ If you can provide the actual content or transcript from that Claude conversatio
 
 - **Source:** Web
 - **URL:** [https://claude.ai/share/4fec3e49-05a3-4e34-9e91-bf9fbd41d93b](https://claude.ai/share/4fec3e49-05a3-4e34-9e91-bf9fbd41d93b)
-- **Shared by:** +REDACTED
 - **Shared on:** 2026-02-27T19:16:57.041298+00:00
 - **Tags:** llms
 
@@ -255,7 +249,6 @@ Tags: LLMs
 
 - **Source:** X
 - **URL:** [https://x.com/asmah2107/status/2027721262324453602](https://x.com/asmah2107/status/2027721262324453602)
-- **Shared by:** +REDACTED
 - **Shared on:** 2026-03-11T22:54:03.753547+00:00
 - **Tags:** agents, infrastructure
 

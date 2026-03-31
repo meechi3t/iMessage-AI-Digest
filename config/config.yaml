@@ -2,9 +2,9 @@
 
 thread:
   name: "AI Masterminds"
-  participants:
-    - "REDACTED"
-    - "REDACTED"
+  participants_env:
+    - "THREAD_PARTICIPANT_1"
+    - "THREAD_PARTICIPANT_2"
   trusted: true  # All links from this thread are assumed AI-relevant as a fallback
 
 messages_db: "~/Library/Messages/chat.db"
@@ -63,7 +63,7 @@ paths:
 
 test_mode:
   enabled: false
-  send_to: "+REDACTED"  # Send digest to yourself instead of the group
+  send_to_env: "TEST_SEND_TO"  # Env var for test recipient
 
 ai_tags:
   - "agents"

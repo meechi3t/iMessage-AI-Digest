@@ -35,7 +35,6 @@
 
 - **Source:** X
 - **URL:** [https://x.com/coreyganim/status/2036890405933867095](https://x.com/coreyganim/status/2036890405933867095)
-- **Shared by:** +REDACTED
 - **Shared on:** 2026-03-26T09:46:20.062467+00:00
 - **Tags:** ai startups, coding tools
 
@@ -74,7 +73,6 @@ Tags: AI startups, coding tools
 
 - **Source:** X
 - **URL:** [https://x.com/trq212/status/2033949937936085378](https://x.com/trq212/status/2033949937936085378)
-- **Shared by:** +REDACTED
 - **Shared on:** 2026-03-29T09:11:59.315906+00:00
 
 I'm unable to analyze this content because the provided information only contains a Twitter/X URL link (https://t.co/45C3gKydTK) without any actual transcript, video content, or substantive description to analyze.
@@ -94,7 +92,6 @@ If you can provide the actual content from this video or tweet, I'd be happy to 
 
 - **Source:** Web
 - **URL:** [https://meechi3t.github.io/iMessage-AI-Digest/latest.html](https://meechi3t.github.io/iMessage-AI-Digest/latest.html)
-- **Shared by:** None
 - **Shared on:** 2026-03-30T16:47:05.829000+00:00
 - **Tags:** agents, infrastructure, open source
 
@@ -136,7 +133,6 @@ Tags: agents, infrastructure, open source
 
 - **Source:** Web
 - **URL:** [https://meechi3t.github.io/iMessage-AI-Digest/archive.htm](https://meechi3t.github.io/iMessage-AI-Digest/archive.htm)
-- **Shared by:** None
 - **Shared on:** 2026-03-30T16:47:05.829000+00:00
 - **Tags:** agents, infrastructure, open source
 
