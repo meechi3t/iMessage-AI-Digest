@@ -127,6 +127,54 @@ def fetch_x_metadata(url: str) -> dict:
     return {"title": "", "description": "", "duration": None}
 
 
+def fetch_browser_metadata(url: str) -> dict:
+    """Fetch metadata by rendering the page in a headless browser (Playwright).
+
+    Used as a fallback when standard HTTP requests return no useful content,
+    e.g. for JS-rendered pages like X articles.
+    """
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        print("  Playwright not installed, skipping browser fallback")
+        return {"title": "", "description": "", "duration": None}
+
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+            page.goto(url, wait_until="domcontentloaded", timeout=30000)
+            # Wait a bit for JS to render
+            page.wait_for_timeout(3000)
+
+            title = page.title() or ""
+            description = ""
+
+            # Try meta description
+            desc_el = page.query_selector('meta[name="description"], meta[property="og:description"]')
+            if desc_el:
+                description = desc_el.get_attribute("content") or ""
+
+            # If no meta description, grab visible text
+            if not description:
+                body_text = page.inner_text("body")
+                # Take first 2000 chars as description
+                description = body_text[:2000].strip() if body_text else ""
+
+            browser.close()
+
+            print(f"  Browser fallback fetched: {title[:60]}")
+            return {
+                "title": title,
+                "description": description,
+                "duration": None,
+                "uploader": "",
+            }
+    except Exception as e:
+        print(f"  Browser fallback failed for {url}: {e}")
+        return {"title": "", "description": "", "duration": None}
+
+
 def fetch_web_metadata(url: str) -> dict:
     """Fetch metadata from a generic web page via Open Graph / meta tags."""
     try:
@@ -185,6 +233,17 @@ def fetch_metadata(link: dict) -> dict:
         metadata = fetch_x_metadata(url)
     else:
         metadata = fetch_web_metadata(url)
+
+    # Fallback to headless browser if no useful content was fetched
+    title = metadata.get("title", "").strip()
+    desc = metadata.get("description", "").strip()
+    title_is_url = title.startswith("http://") or title.startswith("https://")
+    desc_is_url = desc.startswith("http://") or desc.startswith("https://")
+    if (not title or title_is_url) and (not desc or desc_is_url):
+        print(f"  No useful metadata, trying browser fallback...")
+        browser_meta = fetch_browser_metadata(url)
+        if browser_meta.get("title") or browser_meta.get("description"):
+            metadata.update({k: v for k, v in browser_meta.items() if v})
 
     link["metadata"] = metadata
     print(f"  Fetched metadata: {metadata.get('title', 'N/A')[:60]}")

@@ -288,11 +288,14 @@ def run(include_urls=None, no_notify=False, date_override=None):
     analyzable = []
     unanalyzable = []
     for l in ai_links:
-        has_content = (
-            l.get("transcript")
-            or l.get("metadata", {}).get("description", "").strip()
-            or l.get("metadata", {}).get("title", "").strip()
-        )
+        title = l.get("metadata", {}).get("title", "").strip()
+        desc = l.get("metadata", {}).get("description", "").strip()
+        # A bare URL is not meaningful content
+        if title.startswith("http://") or title.startswith("https://"):
+            title = ""
+        if desc.startswith("http://") or desc.startswith("https://"):
+            desc = ""
+        has_content = l.get("transcript") or title or desc
         if has_content or l.get("normalized_url") in force_urls:
             analyzable.append(l)
         else:
