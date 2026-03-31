@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract video links from messages."""
+"""Extract links from messages."""
 
 import re
 import sys
@@ -15,30 +15,71 @@ URL_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
-SUPPORTED_DOMAINS = {
-    "youtube.com",
-    "www.youtube.com",
-    "m.youtube.com",
-    "youtu.be",
-    "x.com",
-    "twitter.com",
-    "www.twitter.com",
-    "mobile.twitter.com",
+# Domains to always ignore (not useful content)
+IGNORED_DOMAINS = {
+    "apple.com",
+    "icloud.com",
+    "googleapis.com",
+    "gstatic.com",
+    "bit.ly",  # too ambiguous without resolving
+}
+
+# Domains that never need metadata fetching (images, etc.)
+IGNORED_EXTENSIONS = {
+    ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg",
+    ".mp4", ".mov", ".mp3", ".wav",
 }
 
 
-def is_video_link(url: str) -> bool:
-    """Check if URL is from a supported video platform."""
+def is_useful_link(url: str) -> bool:
+    """Check if URL is worth processing (not an image, attachment, etc.)."""
     try:
         parsed = urlparse(url)
         domain = parsed.netloc.lower()
-        return domain in SUPPORTED_DOMAINS
+        path = parsed.path.lower()
+
+        # Skip ignored domains
+        for ignored in IGNORED_DOMAINS:
+            if ignored in domain:
+                return False
+
+        # Skip direct media files
+        for ext in IGNORED_EXTENSIONS:
+            if path.endswith(ext):
+                return False
+
+        return True
     except Exception:
         return False
 
 
+def get_platform(url: str) -> str:
+    """Determine the platform from a URL."""
+    try:
+        domain = urlparse(url).netloc.lower()
+    except Exception:
+        return "web"
+
+    if "youtube.com" in domain or "youtu.be" in domain:
+        return "youtube"
+    elif "x.com" in domain or "twitter.com" in domain:
+        return "x"
+    elif "github.com" in domain:
+        return "github"
+    elif "reddit.com" in domain:
+        return "reddit"
+    elif "arxiv.org" in domain:
+        return "arxiv"
+    elif "substack.com" in domain or "newsletter" in domain:
+        return "newsletter"
+    elif "medium.com" in domain:
+        return "medium"
+    else:
+        return "web"
+
+
 def extract_links(messages: list[dict]) -> list[dict]:
-    """Extract video links from a list of messages."""
+    """Extract all meaningful links from a list of messages."""
     links = []
     seen_urls = set()
 
@@ -56,7 +97,7 @@ def extract_links(messages: list[dict]) -> list[dict]:
             # Clean trailing punctuation and unicode artifacts
             url = url.rstrip(".,;:!?)\u201c\u201d\u2026\u00ab\u00bb\"'")
 
-            if not is_video_link(url):
+            if not is_useful_link(url):
                 continue
 
             if url in seen_urls:
@@ -65,11 +106,12 @@ def extract_links(messages: list[dict]) -> list[dict]:
 
             links.append({
                 "url": url,
+                "platform": get_platform(url),
                 "message_text": text,
                 "sender_id": msg.get("sender_id"),
                 "timestamp": msg.get("timestamp"),
                 "is_from_me": msg.get("is_from_me", False),
             })
 
-    print(f"Extracted {len(links)} video links from {len(messages)} messages")
+    print(f"Extracted {len(links)} links from {len(messages)} messages")
     return links

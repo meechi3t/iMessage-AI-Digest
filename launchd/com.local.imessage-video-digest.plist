@@ -7,19 +7,18 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/meechiet/Library/CloudStorage/OneDrive-tip10.tech/Desktop/Dev/iMessage_AI_Digest/venv/bin/python</string>
-        <string>/Users/meechiet/Library/CloudStorage/OneDrive-tip10.tech/Desktop/Dev/iMessage_AI_Digest/scripts/run_digest.py</string>
+        <string>/bin/zsh</string>
+        <string>-c</string>
+        <string>source /Users/meechiet/Desktop/Dev/iMessage_AI_Digest/.env &amp;&amp; export ANTHROPIC_API_KEY &amp;&amp; /Users/meechiet/Desktop/Dev/iMessage_AI_Digest/venv/bin/python /Users/meechiet/Desktop/Dev/iMessage_AI_Digest/scripts/run_digest.py</string>
     </array>
 
     <key>WorkingDirectory</key>
-    <string>/Users/meechiet/Library/CloudStorage/OneDrive-tip10.tech/Desktop/Dev/iMessage_AI_Digest</string>
+    <string>/Users/meechiet/Desktop/Dev/iMessage_AI_Digest</string>
 
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>
         <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
-        <key>ANTHROPIC_API_KEY</key>
-        <string>YOUR_API_KEY_HERE</string>
     </dict>
 
     <key>StartCalendarInterval</key>
@@ -33,10 +32,10 @@
     </dict>
 
     <key>StandardOutPath</key>
-    <string>/Users/meechiet/Library/CloudStorage/OneDrive-tip10.tech/Desktop/Dev/iMessage_AI_Digest/data/logs/digest_stdout.log</string>
+    <string>/Users/meechiet/Desktop/Dev/iMessage_AI_Digest/data/logs/digest_stdout.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/meechiet/Library/CloudStorage/OneDrive-tip10.tech/Desktop/Dev/iMessage_AI_Digest/data/logs/digest_stderr.log</string>
+    <string>/Users/meechiet/Desktop/Dev/iMessage_AI_Digest/data/logs/digest_stderr.log</string>
 
     <key>RunAtLoad</key>
     <false/>

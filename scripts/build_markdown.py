@@ -50,18 +50,28 @@ def build_markdown(
     # Per-video sections
     for i, link in enumerate(links, 1):
         metadata = link.get("metadata", {})
-        title = metadata.get("title", "Untitled")
         platform = link.get("platform", "unknown").title()
         url = link.get("normalized_url", link.get("url", ""))
-        sender = link.get("sender_id", "Unknown")
         timestamp = link.get("timestamp", "")
         tags = link.get("ai_tags", [])
+        uploader = metadata.get("uploader", "")
+
+        # For X posts, use @uploader as the title since tweet text is too long
+        raw_title = metadata.get("title", "Untitled")
+        if link.get("platform") == "x" and uploader:
+            title = f"@{uploader}" if not uploader.startswith("@") else uploader
+            subtitle = raw_title
+        else:
+            title = raw_title
+            subtitle = ""
 
         lines.append(f"## {i}. {title}")
         lines.append("")
+        if subtitle:
+            lines.append(f"> {subtitle}")
+            lines.append("")
         lines.append(f"- **Source:** {platform}")
         lines.append(f"- **URL:** [{url}]({url})")
-        lines.append(f"- **Shared by:** {sender}")
         lines.append(f"- **Shared on:** {timestamp}")
         if tags:
             lines.append(f"- **Tags:** {', '.join(tags)}")

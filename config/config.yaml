@@ -1,10 +1,11 @@
 # iMessage AI Video Digest Configuration
 
 thread:
-  name: "Kevin and Arthur"
+  name: "AI Masterminds"
   participants:
     - "REDACTED"
     - "REDACTED"
+  trusted: true  # All links from this thread are assumed AI-relevant as a fallback
 
 messages_db: "~/Library/Messages/chat.db"
 
@@ -13,13 +14,19 @@ schedule:
   time: "11:00"
   timezone: "America/Los_Angeles"
 
-lookback_days: 30
+lookback_days: 7
 
 supported_domains:
+  # All links are now processed — these are just noted for reference
   - "youtube.com"
   - "youtu.be"
   - "x.com"
   - "twitter.com"
+  - "github.com"
+  - "arxiv.org"
+  - "substack.com"
+  - "medium.com"
+  - "any web link"
 
 transcription:
   model: "small"
@@ -55,7 +62,7 @@ paths:
   video_catalog: "data/state/video_catalog.json"
 
 test_mode:
-  enabled: true
+  enabled: false
   send_to: "+REDACTED"  # Send digest to yourself instead of the group
 
 ai_tags:

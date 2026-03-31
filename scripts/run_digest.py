@@ -17,6 +17,7 @@ Runs the full pipeline:
 12. Send iMessage notification
 """
 
+import argparse
 import json
 import logging
 import os
@@ -151,7 +152,7 @@ def build_imessage_text(links: list[dict], config: dict) -> str:
     return "\n".join(lines)
 
 
-def run():
+def run(include_urls=None, no_notify=False, date_override=None):
     """Execute the full digest pipeline."""
     config = load_config()
     logger = setup_logging(config)
@@ -183,13 +184,30 @@ def run():
     logger.info("Step 4: Normalizing links...")
     links = normalize_links(raw_links)
 
-    # Step 5: Filter out already-processed links
+    # Step 5: Filter out already-processed links (unless force-included)
+    force_urls = set(include_urls or [])
     processed = load_processed_links(config)
-    new_links = [l for l in links if l["normalized_url"] not in processed]
+    new_links = [l for l in links if l["normalized_url"] not in processed or l["normalized_url"] in force_urls]
+    if force_urls:
+        forced = [l for l in new_links if l["normalized_url"] in force_urls]
+        logger.info(f"Force-including {len(forced)} URL(s)")
     logger.info(f"New links to process: {len(new_links)} (skipped {len(links) - len(new_links)} already processed)")
 
     if not new_links:
         logger.info("All links already processed. Exiting.")
+        return
+
+    # Filter out links to this project's own GitHub Pages site
+    site_url = config.get("github_pages", {}).get("site_url", "")
+    if site_url:
+        before = len(new_links)
+        new_links = [l for l in new_links if not l.get("normalized_url", "").startswith(site_url)]
+        skipped_self = before - len(new_links)
+        if skipped_self:
+            logger.info(f"Skipped {skipped_self} self-referencing link(s) from {site_url}")
+
+    if not new_links:
+        logger.info("No new links to process after filtering. Exiting.")
         return
 
     # Step 6: Fetch metadata
@@ -207,6 +225,17 @@ def run():
 
     ai_links = [l for l in new_links if l.get("ai_relevance")]
     excluded = [l for l in new_links if not l.get("ai_relevance")]
+
+    # If thread is trusted, include excluded links with low confidence
+    if config.get("thread", {}).get("trusted", False) and excluded:
+        for link in excluded:
+            link["ai_relevance"] = True
+            link["ai_relevance_confidence"] = "low"
+            link["ai_relevance_reason"] = "Included via trusted thread (AI Masterminds)"
+            print(f"  [INCLUDED] (low) Trusted thread override: {link.get('normalized_url', '')[:60]}")
+        ai_links = [l for l in new_links if l.get("ai_relevance")]
+        excluded = [l for l in new_links if not l.get("ai_relevance")]
+
     logger.info(f"AI-relevant: {len(ai_links)}, Excluded: {len(excluded)}")
 
     # Log excluded links
@@ -226,7 +255,7 @@ def run():
 
     # Step 8: Fetch transcripts
     logger.info("Step 8: Fetching transcripts...")
-    date_str = datetime.now().strftime("%Y-%m-%d")
+    date_str = date_override or datetime.now().strftime("%Y-%m-%d")
     digest_dir = os.path.join(PROJECT_ROOT, config["paths"]["digests_dir"], date_str)
     transcripts_dir = os.path.join(digest_dir, "transcripts")
     os.makedirs(transcripts_dir, exist_ok=True)
@@ -253,6 +282,36 @@ def run():
             summarize_video(link)
         except Exception as e:
             logger.error(f"Summary failed for {link['normalized_url']}: {e}")
+
+    # Filter out links with no analyzable content (no metadata, transcript, or meaningful summary)
+    before_filter = len(ai_links)
+    analyzable = []
+    unanalyzable = []
+    for l in ai_links:
+        has_content = (
+            l.get("transcript")
+            or l.get("metadata", {}).get("description", "").strip()
+            or l.get("metadata", {}).get("title", "").strip()
+        )
+        if has_content or l.get("normalized_url") in force_urls:
+            analyzable.append(l)
+        else:
+            unanalyzable.append(l)
+    ai_links = analyzable
+    if unanalyzable:
+        logger.info(f"Dropped {len(unanalyzable)} link(s) with no analyzable content:")
+        for link in unanalyzable:
+            logger.info(f"  Skipped: {link.get('normalized_url')} — no title, description, or transcript available")
+
+    if not ai_links:
+        logger.info("No links with analyzable content remain. Exiting.")
+        for link in new_links:
+            processed[link["normalized_url"]] = {
+                "processed_at": run_timestamp,
+                "ai_relevance": link.get("ai_relevance", False),
+            }
+        save_processed_links(processed, config)
+        return
 
     overall_summary = generate_overall_summary(ai_links)
 
@@ -336,21 +395,32 @@ def run():
         logger.error(f"Publish failed: {e}")
 
     # Step 15: Send iMessage
-    test_mode = config.get("test_mode", {})
-    if test_mode.get("enabled") and test_mode.get("send_to"):
-        target = test_mode["send_to"]
-        logger.info(f"Step 15: Sending iMessage (TEST MODE → {target})...")
+    if no_notify:
+        logger.info("Step 15: Skipping iMessage (--no-notify)")
     else:
-        target = chat_guid
-        logger.info("Step 15: Sending iMessage to group chat...")
-    imessage_text = build_imessage_text(ai_links, config)
-    try:
-        send_imessage(target, imessage_text)
-    except Exception as e:
-        logger.error(f"iMessage send failed: {e}")
+        test_mode = config.get("test_mode", {})
+        if test_mode.get("enabled") and test_mode.get("send_to"):
+            target = test_mode["send_to"]
+            logger.info(f"Step 15: Sending iMessage (TEST MODE → {target})...")
+        else:
+            target = chat_guid
+            logger.info("Step 15: Sending iMessage to group chat...")
+        imessage_text = build_imessage_text(ai_links, config)
+        try:
+            send_imessage(target, imessage_text)
+        except Exception as e:
+            logger.error(f"iMessage send failed: {e}")
 
     logger.info(f"=== Digest complete: {len(ai_links)} videos processed ===")
 
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(description="iMessage AI Video Digest")
+    parser.add_argument("--include-url", action="append", default=[],
+                        help="Force-include a URL (bypasses processed/content filters). Can be repeated.")
+    parser.add_argument("--no-notify", action="store_true",
+                        help="Skip sending iMessage notification (silent update).")
+    parser.add_argument("--date", default=None,
+                        help="Override digest date (YYYY-MM-DD). Appends to that week's digest.")
+    args = parser.parse_args()
+    run(include_urls=args.include_url, no_notify=args.no_notify, date_override=args.date)

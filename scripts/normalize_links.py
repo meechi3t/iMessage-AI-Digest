@@ -68,8 +68,16 @@ def normalize_link(url: str) -> dict:
         match = re.search(r'/status/(\d+)', normalized)
         video_id = match.group(1) if match else None
     else:
-        normalized = url
-        platform = "unknown"
+        # Strip common tracking params for any URL
+        clean_params = {k: v for k, v in parse_qs(parsed.query).items()
+                        if k not in ("utm_source", "utm_medium", "utm_campaign",
+                                     "utm_content", "utm_term", "ref", "source")}
+        if clean_params:
+            query = urlencode(clean_params, doseq=True)
+            normalized = f"{parsed.scheme}://{parsed.netloc}{parsed.path}?{query}"
+        else:
+            normalized = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
+        platform = "web"
         video_id = None
 
     return {
@@ -93,7 +101,11 @@ def normalize_links(links: list[dict]) -> list[dict]:
             continue
         seen.add(norm_url)
 
+        # Preserve platform from extract_links if normalize_link returned "web"
+        existing_platform = link.get("platform")
         link.update(info)
+        if info["platform"] == "web" and existing_platform and existing_platform != "web":
+            link["platform"] = existing_platform
         normalized.append(link)
 
     print(f"Normalized {len(normalized)} unique links from {len(links)} raw links")

@@ -9,7 +9,7 @@ sys.path.insert(0, PROJECT_ROOT)
 
 from scripts.config_loader import load_config
 
-SUMMARY_PROMPT = """You are summarizing a video about AI/technology for a weekly digest.
+SUMMARY_PROMPT = """You are an expert AI/tech analyst creating an in-depth summary for a weekly digest read by engineers and founders.
 
 Video Title: {title}
 Platform: {platform}
@@ -18,41 +18,47 @@ URL: {url}
 Transcript/Description:
 {content}
 
-Produce a structured summary in this exact format (use markdown):
+Produce a detailed, insightful summary in this exact format (use markdown):
+
+### TL;DR
+(1-2 sentence executive summary of the core message)
 
 ### Key Points
-- (3-7 bullet points capturing the main ideas)
+- (5-10 detailed bullet points. Go beyond surface-level observations — explain the *why* and *so what* behind each point. Include specific names, numbers, tools, or frameworks mentioned.)
 
-### Decisions
-- (Any decisions discussed or announced, or "None noted")
+### Technical Details
+- (Any specific tools, models, APIs, architectures, frameworks, or technical approaches discussed. If none, write "N/A")
 
-### Action Items
-- (Any calls to action or next steps mentioned, or "None noted")
-
-### Open Questions
-- (Unresolved questions or debates raised, or "None noted")
+### Industry Implications
+- (2-4 bullets on what this means for the broader AI ecosystem — how it affects developers, startups, enterprises, or the competitive landscape)
 
 ### Interesting Ideas
-- (Novel or thought-provoking concepts mentioned)
+- (Novel insights, contrarian takes, or thought-provoking concepts worth remembering. Explain why each idea matters.)
 
 ### AI Topic Tags
 (Assign 1-5 tags from: agents, LLMs, multimodal, AI startups, infrastructure, coding tools, robotics, research, open source, safety)
 Tags: tag1, tag2, tag3
 
-Be concise. Each bullet should be 1-2 sentences max."""
+Write for a technical audience. Be specific and substantive — avoid generic filler like "this is interesting" or "AI is changing things." Extract maximum insight from the source material."""
 
-OVERALL_SUMMARY_PROMPT = """You are creating an overall summary for a weekly AI video digest.
+OVERALL_SUMMARY_PROMPT = """You are creating an overview for a weekly AI video digest read by engineers and founders.
 
 Here are the individual video summaries:
 
 {video_summaries}
 
-Write a 2-3 paragraph overall summary that:
-1. Identifies the major themes across all videos this week
-2. Highlights the most significant developments or announcements
-3. Notes any patterns or trends
+Write the overview using this exact format:
 
-Keep it concise and informative. Write in a neutral, informative tone."""
+### Themes This Week
+- (bullet for each major theme, 4-6 bullets)
+
+### Highlights
+- (the 3-5 most notable takeaways across all content — be specific, name names/tools/ideas)
+
+### Signal vs Noise
+- (1-2 bullets on what seems like a real trend vs what's hype)
+
+Write for a technical audience. Be specific and punchy — no filler."""
 
 
 def summarize_video(link: dict) -> dict:
@@ -81,10 +87,10 @@ def summarize_video(link: dict) -> dict:
 
     try:
         import anthropic
-        client = anthropic.Anthropic()
+        client = anthropic.Anthropic(timeout=120.0)
         response = client.messages.create(
             model="claude-sonnet-4-20250514",
-            max_tokens=1500,
+            max_tokens=2500,
             messages=[{"role": "user", "content": prompt}],
         )
         summary = response.content[0].text
@@ -115,7 +121,7 @@ def generate_overall_summary(links: list[dict]) -> str:
         client = anthropic.Anthropic()
         response = client.messages.create(
             model="claude-sonnet-4-20250514",
-            max_tokens=800,
+            max_tokens=1500,
             messages=[{"role": "user", "content": prompt}],
         )
         return response.content[0].text
