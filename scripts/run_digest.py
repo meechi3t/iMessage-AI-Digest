@@ -167,15 +167,23 @@ def run(include_urls=None, no_notify=False, date_override=None):
     logger.info(f"Thread GUID: {chat_guid}")
 
     # Step 2: Extract messages
+    force_urls = set(include_urls or [])
     logger.info("Step 2: Extracting messages...")
     messages = extract_messages(chat_guid, config["lookback_days"], config)
-    if not messages:
+    if not messages and not force_urls:
         logger.info("No messages found in the lookback period. Exiting.")
         return
 
     # Step 3: Extract links
     logger.info("Step 3: Extracting video links...")
-    raw_links = extract_links(messages)
+    raw_links = extract_links(messages) if messages else []
+
+    # Inject force-included URLs that weren't found in messages
+    existing_urls = {l.get("url") or l.get("normalized_url") for l in raw_links}
+    for furl in force_urls:
+        if furl not in existing_urls:
+            raw_links.append({"url": furl, "normalized_url": furl, "platform": "x" if "x.com" in furl or "twitter.com" in furl else "web"})
+
     if not raw_links:
         logger.info("No video links found. Exiting.")
         return
@@ -185,7 +193,6 @@ def run(include_urls=None, no_notify=False, date_override=None):
     links = normalize_links(raw_links)
 
     # Step 5: Filter out already-processed links (unless force-included)
-    force_urls = set(include_urls or [])
     processed = load_processed_links(config)
     new_links = [l for l in links if l["normalized_url"] not in processed or l["normalized_url"] in force_urls]
     if force_urls:
