@@ -1,0 +1,18 @@
+{
+  "date": "2026-04-06",
+  "run_timestamp": "2026-04-08T18:03:02.243968+00:00",
+  "video_count": 1,
+  "excluded_count": 0,
+  "links": [
+    {
+      "url": "https://x.com/trq212/status/2033949937936085378",
+      "title": "Thariq on X: \"Lessons from Building Claude Code: How We Use Skills \" / X",
+      "platform": "x",
+      "ai_tags": [
+        "agents",
+        "coding tools",
+        "infrastructure"
+      ]
+    }
+  ]
+}
